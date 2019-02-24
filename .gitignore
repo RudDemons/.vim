@@ -1,0 +1,3 @@
+# # Não trackear arquivos de backup do VIM
+*~
+*.swp
