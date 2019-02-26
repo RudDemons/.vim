@@ -1,69 +1,88 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+" Sem retrocompatibilidade com Vi.
+set nocompatible
+" Antes de iniciar o Vundle, sem destaque de sintaxe por tipo de arquivo.
+filetype off
 
-" Para uso do YCM
-set encoding=utf-8
-
-" set the runtime path to include Vundle and initialize
+" Runtime path para Vundle de acordo com o sistema nativo do Gvim, para
+" permitir uso dos Vimscripts do Vundle.
+" Esse sistema supõe que para maquinas Windows haverá um Symbolic Link
+" 'vimfiles' apontando para '.vim'.
 if has('unix')
+
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
 else    
+
     set rtp+=$HOME/.vim/bundle/Vundle.vim
     call vundle#begin('$HOME/.vim/bundle')
 endif
 
-" let Vundle manage Vundle, required
+" Vundle tem que ser capaz de se atualizar.
 Plugin 'VundleVim/Vundle.vim'
+
+" Colorscheme Solarized. Para Vim em terminal, o segundo também tem que usar
+" Solarized como tema.
 Plugin 'altercation/vim-colors-solarized'
+
+" Auto-complete. Requer compilação.
 Plugin 'Valloric/YouCompleteMe'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+" Fim dos plugins.
+call vundle#end()
 
+" Ativa detecção de tipo de arquivo, indentação respectiva e mapeamento e
+" opções dos plugins baixados.
+filetype plugin indent on
+
+" Para uso do Solarized.
 syntax enable
 set background=dark
 colorscheme solarized
 
+" Para uso do YCM.
+set encoding=utf-8
+
 let mapleader=","
 
-" When started as "evim", evim.vim will already have done these settings.
-if v:progname =~? "evim"
-  finish
-endif
-
+" vm = maquina virtual.
 if has("vms")
-  set nobackup		" do not keep a backup file, use versions instead
+
+  " maquinas virtuais tem configurações de backup próprias.
+  set nobackup
 else
-  set backup		" keep a backup file (restore to previous version)
+
+  set backup
+
+  " Persistent_undo permite manter histórico de mudanças de um arquivo
+  " permitindo refazê-las e desfazê-las ao longo de diferentes 'sessões'.
   if has('persistent_undo')
-    set undofile	" keep an undo file (undo changes after closing)
+
+    set undofile
+
+    " Manter todos os arquivos de histórico de mudança em undodir.
+    set undodir=~/.vim/undodir
   endif
 endif
 
+" t_Co guarda quantas cores são suportadas no terminal.
 if &t_Co > 2 || has("gui_running")
-  " Switch on highlighting the last used search pattern.
+
+  " Mostra o último padrão pesquisado.
   set hlsearch
 endif
 
-" Only do this part when compiled with support for autocommands.
+" Autocmd permite comandos serem executados assim que se abre um arquivo.
 if has("autocmd")
 
-  " Put these in an autocmd group, so that we can delete them easily.
-  augroup vimrcEx
+  " Autocmds que que querem atingir o mesmo comportamento são agrupados
+  " juntos. Esses grupos sempre são limpos com au! e autocmd! antes dos
+  " autocmds, para evitar duplicatas e, portanto, lentidão.
+  augroup highlightOver74
   au!
-
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
-
+  autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#592929
+  autocmd BufEnter * match OverLength /\%74v.*/
   augroup END
-
-else
-
-  set autoindent        " always set autoindenting on
-
-endif " has("autocmd")
+endif
 
 " Add optional packages.
 "
