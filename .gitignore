@@ -1,3 +1,6 @@
-# # Não trackear arquivos de backup do VIM
+# Não trackear arquivos de backup do VIM
 *~
 *.swp
+
+# Não trackear histórico do persistent_undo
+undodir/*
