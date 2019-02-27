@@ -47,102 +47,121 @@ let mapleader=","
 " vm = maquina virtual.
 if has("vms")
 
-  " maquinas virtuais tem configurações de backup próprias.
-  set nobackup
+    " maquinas virtuais tem configurações de backup próprias.
+    set nobackup
 else
 
-  set backup
+    set backup
 
-  " Persistent_undo permite manter histórico de mudanças de um arquivo
-  " permitindo refazê-las e desfazê-las ao longo de diferentes 'sessões'.
-  if has('persistent_undo')
+    " Persistent_undo permite manter histórico de mudanças de um arquivo
+    " permitindo refazê-las e desfazê-las ao longo de diferentes 'sessões'.
+    if has('persistent_undo')
 
-    set undofile
+        set undofile
 
-    " Manter todos os arquivos de histórico de mudança em undodir.
-    set undodir=~/.vim/undodir
-  endif
+        " Manter todos os arquivos de histórico de mudança em undodir.
+        set undodir=~/.vim/undodir
+    endif
 endif
 
 " t_Co guarda quantas cores são suportadas no terminal.
 if &t_Co > 2 || has("gui_running")
 
-  " Mostra o último padrão pesquisado.
-  set hlsearch
+    " Mostra o último padrão pesquisado.
+    set hlsearch
 endif
 
 " Autocmd permite comandos serem executados assim que se abre um arquivo.
 if has("autocmd")
 
-  " Autocmds que que querem atingir o mesmo comportamento são agrupados
-  " juntos. Esses grupos sempre são limpos com au! e autocmd! antes dos
-  " autocmds, para evitar duplicatas e, portanto, lentidão.
-  augroup highlightOver74
-  au!
-  autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#592929
-  autocmd BufEnter * match OverLength /\%74v.*/
-  augroup END
+    " Autocmds que que querem atingir o mesmo comportamento são agrupados
+    " juntos. Esses grupos sempre são limpos com au! e autocmd! antes dos
+    " autocmds, para evitar duplicatas e, portanto, lentidão.
+    augroup highlightOver80
+    au!
+    autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#592929
+    autocmd BufEnter * match OverLength /\%80v.*/
+    augroup END
+
+    augroup compileInterpret
+    au!
+    autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+    augroup END
 endif
 
-" Add optional packages.
-"
-" The matchit plugin makes the % command work better, but it is not backwards
-" compatible.
-" The ! means the package won't be loaded right away but when plugins are
-" loaded during initialization.
-if has('syntax') && has('eval')
-  packadd! matchit
-endif
+" Tabs são simplesmente uma quantidade de espaços.
+set expandtab
+" Quantidade de espaços de >>, << e ==.
+set shiftwidth=4
+" Quantidade de espaços de <TAB> e <BS>.
+set softtabstop=4
 
-set expandtab           " Tabs são simplesmente uma quantidade de espaços
-set shiftwidth=4        " Quantidade de espaços de >>, << e ==
-set softtabstop=4       " Quantidade de espaços de <TAB> e <BS>
-set incsearch           " Mostra combinações, enquanto escreve, iguais
-set ruler               " Mostra localização atual do ponteiro
-set number              " Mostra o número de linhas
-set cursorline          " Destaca a linha atual
-set showmatch           " Destaca correspondente parenteses, colchetes etc
+" Enquanto digitando, mostra combinações com o padrão pesquisado
+set incsearch
+" Mostra localização atual do ponteiro.
+set ruler
+"Mostra o número de linhas.
+set number
+" Destaca a linha atual.
+set cursorline
+" Destaca correspondente parenteses, colchetes etc
+set showmatch
+
+"  Mapeamentos do modo normal não-recursivos.
+
+" Tira os destaques de pesquisa.
 nnoremap <leader><space> :nohls<CR>
-                        " tira os destaques de pesquisa
 
-set foldenable          " habilita folding de funções 
-set foldlevelstart=10
-                        " faz com que apenas folds muito nested sejam fechadas com
-                        " um novo buffer
-
-set foldnestmax=10      " profundidade máxima de fold até 10
-
-nnoremap <space> za     
-                        " espaço abre e fecha folds
-
-set foldmethod=indent
-                        " fold são dado a partir da indentação
-
+" Navegação vertical não ignora longas linhas duplas.
 nnoremap j gj
 nnoremap k gk
-                        " movimentação vertical não ignora longas linhas duplas
+
+" Mapeamentos do modo normal recursivos.
+
+" Desabilita movimentação por setas.
+nmap <up> <nop>
+nmap <down> <nop>
+nmap <left> <nop>
+nmap <right> <nop>
+
+" Mapeamentos do modo de inserção não recursivos.
+
+" Atalho para o modo normal, do modo de inserção.
 inoremap jk <esc>
-                        "sair para o modo normal agora é muito mais rápido
 
+" Opções de folding caso disponíveis.
+if has("folding")
 
-" Atalhos compilar/interpretar arquivos
-autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+    " Habilita folding de funções.
+    set foldenable
 
-set backspace=eol,start
-set guifont=Andale\ Mono:h14
+    " Determina a partir de quanta indentação folds 
+    " de um arquivo aberto estarão fechadas ou abertas.
+    set foldlevelstart=10
 
-" :find pode achar qualquer arquivo dentro da pasta que ele está aberto
+    " Profundidade máxima de fold.
+    set foldnestmax=10
+
+    " Fold são definidas a partir da indentação.
+    set foldmethod=indent
+
+    " Espaço dobra folds.
+    nnoremap <space> za 
+endif
+
+" Permite backspace funcionar como a maioria dos editores de texto, não sendo
+" bloqueado para inícios de linha, indentação automática ou início de
+" inserção.
+set backspace=eol,start,indent
+
+" :find pode achar qualquer arquivo dentro da pasta em que o Vim foi aberto
+" inicialmente.
 set path+=**
-
-" :abre um menu quando iterando sobre sujestões com tab
+" Abre um menu quando iterando sobre sujestões de arquivos com taba.
 set wildmenu
 
-" Configurações do explorador de arquivos netwr
-let g:netrw_banner=0 "Esconde o banner
-let g:netrw_liststyle=3 "Explora em modo tree
-
-" Disable Arrow keys in Escape mode
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
+" Configurações do explorador de arquivos netwr.
+" Esconde o banner.
+let g:netrw_banner=0
+" Explora em modo tree
+let g:netrw_liststyle=3
