@@ -1,14 +1,13 @@
-set lines=25 columns=130
+set lines=25 columns=90
 
 " Sem retrocompatibilidade com Vi.
 set nocompatible
 " Antes de iniciar o Vundle, sem destaque de sintaxe por tipo de arquivo.
 filetype off
 
-" Runtime path para Vundle de acordo com o sistema nativo do Gvim, para
-" permitir uso dos Vimscripts do Vundle.
-" Esse sistema supõe que para maquinas Windows haverá um Symbolic Link
-" 'vimfiles' apontando para '.vim'.
+" Runtime path para Vundle de acordo com o sistema nativo do Gvim, para permitir
+" uso dos Vimscripts do Vundle. Esse sistema supõe que para maquinas Windows
+" haverá um Symbolic Link 'vimfiles' apontando para '.vim'.
 if has('unix')
 
     set rtp+=~/.vim/bundle/Vundle.vim
@@ -55,8 +54,8 @@ else
 
     set backup
 
-    " Persistent_undo permite manter histórico de mudanças de um arquivo
-    " permitindo refazê-las e desfazê-las ao longo de diferentes 'sessões'.
+    " Persistent_undo permite manter histórico de mudanças de um arquivo permitindo
+    " refazê-las e desfazê-las ao longo de diferentes 'sessões'.
     if has('persistent_undo')
 
         set undofile
@@ -78,24 +77,24 @@ if has("win32")
     set guifont=Inconsolata-g:h12:cANSI:qDRAFT
 endif
 
-highlight trailingSpaces ctermbg=darkgreen guibg=darkgreen
+" Definição de tema de highlight e funções de assistência
+highlight corrigir ctermbg=darkgreen guibg=darkgreen
 function GetTrailingSpaces()
 
-    match trailingSpaces /\s\+$/
+    match corrigir /\s\+$/
 endfunction
 
-highlight overLength ctermbg=darkgrey guibg=#592929
 function GetOverLength()
 
-    match overLength /\(\(^\s\+\|^\)\S.\{79}\)\@<=.\+/
+    match corrigir /\(\(^\s\+\|^\)\S.\{79}\)\@<=.\+/
 endfunction
 
 " Autocmd permite comandos serem executados assim que se abre um arquivo.
 if has("autocmd")
 
-    " Autocmds que que querem atingir o mesmo comportamento são agrupados
-    " juntos. Esses grupos sempre são limpos com au! e autocmd! antes dos
-    " autocmds, para evitar duplicatas e, portanto, lentidão.
+    " Autocmds que que querem atingir o mesmo comportamento são agrupados juntos.
+    " Esses grupos sempre são limpos com au! e autocmd! antes dos autocmds, para
+    " evitar duplicatas e, portanto, lentidão.
     augroup compileInterpret
 
         au!
@@ -149,8 +148,8 @@ if has("folding")
     " Habilita folding de funções.
     set foldenable
 
-    " Determina a partir de quanta indentação folds
-    " de um arquivo aberto estarão fechadas ou abertas.
+    " Determina a partir de quanta indentação folds de um arquivo aberto estarão
+    " fechadas ou abertas.
     set foldlevelstart=10
 
     " Profundidade máxima de fold.
@@ -163,13 +162,12 @@ if has("folding")
     nnoremap <space> za
 endif
 
-" Permite backspace funcionar como a maioria dos editores
-" de texto, não sendo bloqueado para inícios de linha,
-" indentação automática ou início de inserção.
+" Permite backspace funcionar como a maioria dos editores de texto, não sendo
+" bloqueado para inícios de linha, indentação automática ou início de inserção.
 set backspace=eol,start,indent
 
-" :find pode achar qualquer arquivo dentro da
-" pasta em que o Vim foi aberto inicialmente.
+" :find pode achar qualquer arquivo dentro da pasta em que o Vim foi aberto
+" inicialmente.
 set path+=**
 " Abre um menu quando iterando sobre sujestões de arquivos com taba.
 set wildmenu
