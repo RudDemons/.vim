@@ -81,15 +81,13 @@ endif
 highlight trailingSpaces ctermbg=darkgreen guibg=darkgreen
 function GetTrailingSpaces()
 
-    call clearmatches()
-    call matchadd('trailingSpaces', '\s\+$', -1)
+    match trailingSpaces /\s\+$/
 endfunction
 
 highlight overLength ctermbg=darkgrey guibg=#592929
 function GetOverLength()
 
-    call clearmatches()
-    call matchadd('overLength', '\(\(^\s\+\|^\)\S.\{79}\)\@<=.\+', -1)
+    match overLength /\(\(^\s\+\|^\)\S.\{79}\)\@<=.\+/
 endfunction
 
 " Autocmd permite comandos serem executados assim que se abre um arquivo.
