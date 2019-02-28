@@ -1,3 +1,6 @@
+
+set lines=999 columns=999
+
 " Sem retrocompatibilidade com Vi.
 set nocompatible
 " Antes de iniciar o Vundle, sem destaque de sintaxe por tipo de arquivo.
@@ -11,7 +14,7 @@ if has('unix')
 
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
-else    
+else
 
     set rtp+=$HOME/.vim/bundle/Vundle.vim
     call vundle#begin('$HOME/.vim/bundle')
@@ -71,21 +74,35 @@ if &t_Co > 2 || has("gui_running")
     set hlsearch
 endif
 
+if has("win32")
+
+    set guifont=Inconsolata-g:h12:cANSI:qDRAFT
+endif
+
+highlight trailingSpaces ctermbg=darkgreen guibg=darkgreen
+function GetTrailingSpaces()
+
+    call clearmatches()
+    call matchadd('trailingSpaces', '\s\+$', -1)
+endfunction
+
+highlight overLength ctermbg=darkgrey guibg=#592929
+function GetOverLength()
+
+    call clearmatches()
+    call matchadd('overLength', '\(\(^\s\+\|^\)\S.\{79}\)\@<=.\+', -1)
+endfunction
+
 " Autocmd permite comandos serem executados assim que se abre um arquivo.
 if has("autocmd")
 
     " Autocmds que que querem atingir o mesmo comportamento são agrupados
     " juntos. Esses grupos sempre são limpos com au! e autocmd! antes dos
     " autocmds, para evitar duplicatas e, portanto, lentidão.
-    augroup highlightOver80
-    au!
-    autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#592929
-    autocmd BufEnter * match OverLength /\%80v.*/
-    augroup END
-
     augroup compileInterpret
-    au!
-    autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+
+        au!
+        autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
     augroup END
 endif
 
@@ -107,7 +124,7 @@ set cursorline
 " Destaca correspondente parenteses, colchetes etc
 set showmatch
 
-"  Mapeamentos do modo normal não-recursivos.
+" Mapeamentos do modo normal não-recursivos.
 
 " Tira os destaques de pesquisa.
 nnoremap <leader><space> :nohls<CR>
@@ -135,7 +152,7 @@ if has("folding")
     " Habilita folding de funções.
     set foldenable
 
-    " Determina a partir de quanta indentação folds 
+    " Determina a partir de quanta indentação folds
     " de um arquivo aberto estarão fechadas ou abertas.
     set foldlevelstart=10
 
@@ -146,16 +163,16 @@ if has("folding")
     set foldmethod=indent
 
     " Espaço dobra folds.
-    nnoremap <space> za 
+    nnoremap <space> za
 endif
 
-" Permite backspace funcionar como a maioria dos editores de texto, não sendo
-" bloqueado para inícios de linha, indentação automática ou início de
-" inserção.
+" Permite backspace funcionar como a maioria dos editores
+" de texto, não sendo bloqueado para inícios de linha,
+" indentação automática ou início de inserção.
 set backspace=eol,start,indent
 
-" :find pode achar qualquer arquivo dentro da pasta em que o Vim foi aberto
-" inicialmente.
+" :find pode achar qualquer arquivo dentro da
+" pasta em que o Vim foi aberto inicialmente.
 set path+=**
 " Abre um menu quando iterando sobre sujestões de arquivos com taba.
 set wildmenu
