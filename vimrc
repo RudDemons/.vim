@@ -1,5 +1,4 @@
-
-set lines=999 columns=999
+set lines=25 columns=130
 
 " Sem retrocompatibilidade com Vi.
 set nocompatible
