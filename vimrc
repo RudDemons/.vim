@@ -5,6 +5,11 @@ set nocompatible
 " Antes de iniciar o Vundle, sem destaque de sintaxe por tipo de arquivo.
 filetype off
 
+" Instala Vundle caso não exista
+if !filereadable($HOME . '/.vim/bundle/Vundle.vim/.git/config') && confirm("Clone Vundle?","Y\nn") == 1
+    exec '!git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim/'
+endif
+
 " Runtime path para Vundle de acordo com o sistema nativo do Gvim, para permitir
 " uso dos Vimscripts do Vundle. Esse sistema supõe que para maquinas Windows
 " haverá um Symbolic Link 'vimfiles' apontando para '.vim'.
