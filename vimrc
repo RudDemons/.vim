@@ -5,22 +5,25 @@ set nocompatible
 " Antes de iniciar o Vundle, sem destaque de sintaxe por tipo de arquivo.
 filetype off
 
-" Instala Vundle caso não exista
-if !filereadable($HOME . '/.vim/bundle/Vundle.vim/.git/config') && confirm("Clone Vundle?","Y\nn") == 1
-    exec '!git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim/'
-endif
 
-" Runtime path para Vundle de acordo com o sistema nativo do Gvim, para permitir
-" uso dos Vimscripts do Vundle. Esse sistema supõe que para maquinas Windows
-" haverá um Symbolic Link 'vimfiles' apontando para '.vim'.
 if has('unix')
 
-    set rtp+=~/.vim/bundle/Vundle.vim
+    " Instala Vundle caso não exista
+    if !filereadable($HOME . '/.vim/bundle/Vundle.vim/.git/config') && confirm("Clone Vundle?","Y\nn") == 1
+        exec '!git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim/'
+    endif
+    " Runtime path para Vundle de acordo com o sistema nativo
+    " do Gvim, para permitir uso dos Vimscripts do Vundle.
+    set rtp+=$HOME/.vim/bundle/Vundle.vim
     call vundle#begin()
 else
 
-    set rtp+=$HOME/.vim/bundle/Vundle.vim
-    call vundle#begin('$HOME/.vim/bundle')
+    if !filereadable($HOME . '/vimfiles/bundle/Vundle.vim/.git/config') && confirm("Clone Vundle?","Y\nn") == 1
+        exec '!git clone https://github.com/VundleVim/Vundle.vim ~/vimfiles/bundle/Vundle.vim/'
+    endif
+
+    set rtp+=$HOME/vimfiles/bundle/Vundle.vim
+    call vundle#begin('$HOME/vimfiles/bundle')
 endif
 
 " Vundle tem que ser capaz de se atualizar.
@@ -33,8 +36,14 @@ Plugin 'altercation/vim-colors-solarized'
 " Auto-complete. Requer compilação.
 Plugin 'Valloric/YouCompleteMe'
 
+" Powerline para Vim
+Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+
 " Fim dos plugins.
 call vundle#end()
+
+" Permite uso do Power Line
+set laststatus=2
 
 " Ativa detecção de tipo de arquivo, indentação respectiva e mapeamento e
 " opções dos plugins baixados.
@@ -58,6 +67,7 @@ if has("vms")
 else
 
     set backup
+    set backupdir=~/.vim/backupdir
 
     " Persistent_undo permite manter histórico de mudanças de um arquivo permitindo
     " refazê-las e desfazê-las ao longo de diferentes 'sessões'.
@@ -182,3 +192,6 @@ set wildmenu
 let g:netrw_banner=0
 " Explora em modo tree
 let g:netrw_liststyle=3
+
+" Mostra comandos enquanto são digitados
+set showcmd
