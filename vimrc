@@ -1,20 +1,20 @@
-set lines=25 columns=90
+set lines=55 columns=90
 
 " Sem retrocompatibilidade com Vi.
 set nocompatible
 " Antes de iniciar o Vundle, sem destaque de sintaxe por tipo de arquivo.
 filetype off
 
-
+" -------------------VUNDLE---------------------
 if has('unix')
 
-    " Instala Vundle caso não exista
     if !filereadable($HOME . '/.vim/bundle/Vundle.vim/.git/config') && confirm("Clone Vundle?","Y\nn") == 1
         exec '!git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim/'
     endif
+
     " Runtime path para Vundle de acordo com o sistema nativo
     " do Gvim, para permitir uso dos Vimscripts do Vundle.
-    set rtp+=$HOME/.vim/bundle/Vundle.vim
+    set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
 else
 
@@ -34,20 +34,14 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'
 
 " Auto-complete. Requer compilação.
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'ycm-core/YouCompleteMe'
 
 " Powerline para Vim
 Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 
-" Fim dos plugins.
 call vundle#end()
 
-" Permite uso do Power Line
-set laststatus=2
-
-" Ativa detecção de tipo de arquivo, indentação respectiva e mapeamento e
-" opções dos plugins baixados.
-filetype plugin indent on
+" ----------CONFIGURAÇÃO DOS PLUGINS------------
 
 " Para uso do Solarized.
 syntax enable
@@ -56,6 +50,15 @@ colorscheme solarized
 
 " Para uso do YCM.
 set encoding=utf-8
+
+" Para uso do Power Line
+set laststatus=2
+
+" ----------PERSONALIZAÇÃO DO VIM---------------
+
+" Ativa detecção de tipo de arquivo, indentação respectiva e mapeamento e
+" opções dos plugins baixados.
+filetype plugin indent on
 
 let mapleader=","
 
