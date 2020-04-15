@@ -8,8 +8,8 @@ filetype off
 " -------------------VUNDLE---------------------
 if has('unix')
 
-    if !filereadable($HOME . '/.vim/bundle/Vundle.vim/.git/config') && confirm("Clone Vundle?","Y\nn") == 1
-        exec '!git clone https://github.com/VundleVim/Vundle.vim ~/.vim/bundle/Vundle.vim/'
+    if !filereadable($HOME . '/.vim/bundle/Vundle.vim/.git/config')
+        exec '!git clone https://github.com/VundleVim/Vundle.vim ' . $HOME . '/.vim/bundle/Vundle.vim/'
     endif
 
     " Runtime path para Vundle de acordo com o sistema nativo
@@ -18,8 +18,8 @@ if has('unix')
     call vundle#begin()
 else
 
-    if !filereadable($HOME . '/vimfiles/bundle/Vundle.vim/.git/config') && confirm("Clone Vundle?","Y\nn") == 1
-        exec '!git clone https://github.com/VundleVim/Vundle.vim ~/vimfiles/bundle/Vundle.vim/'
+    if !filereadable($HOME . '/vimfiles/bundle/Vundle.vim/.git/config')
+        exec '!git clone https://github.com/VundleVim/Vundle.vim ' . $HOME . '\vimfiles\bundle\Vundle.vim\'
     endif
 
     set rtp+=$HOME/vimfiles/bundle/Vundle.vim
