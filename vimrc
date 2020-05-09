@@ -70,7 +70,11 @@ if has("vms")
 else
 
     set backup
-    set backupdir=~/.vim/backupdir
+    if has('unix')
+        set backupdir=~/.vim/backupdir
+    else
+        set backupdir=$HOME/vimfiles/backupdir
+    endif
 
     " Persistent_undo permite manter histórico de mudanças de um arquivo permitindo
     " refazê-las e desfazê-las ao longo de diferentes 'sessões'.
@@ -79,7 +83,11 @@ else
         set undofile
 
         " Manter todos os arquivos de histórico de mudança em undodir.
-        set undodir=~/.vim/undodir
+        if has('unix')
+            set undodir=~/.vim/undodir
+        else
+            set undodir=$HOME/vimfiles/undodir
+        endif
     endif
 endif
 
@@ -90,9 +98,9 @@ if &t_Co > 2 || has("gui_running")
     set hlsearch
 endif
 
-if has("win32")
+if has("gui_running")
 
-    set guifont=Inconsolata-g:h12:cANSI:qDRAFT
+    set guifont=ProFont_for_Powerline:h14:b:cANSI:qDRAFT
 endif
 
 " Definição de tema de highlight e funções de assistência
