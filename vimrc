@@ -1,4 +1,4 @@
-set lines=55 columns=90
+set lines=55 columns=83
 
 " Sem retrocompatibilidade com Vi.
 set nocompatible
@@ -6,6 +6,12 @@ set nocompatible
 filetype off
 
 " -------------------VUNDLE---------------------
+" MUST DO
+" futuramente terei que estudar se terei um vimrc pra cada SO
+" todos os plugins e configurações se comportam da mesma maneira
+" em cada sistema? Em termos de manutenção significa o que?
+" Problemas do futuro para o futuro eu. 
+
 if has('unix')
 
     if !filereadable($HOME . '/.vim/bundle/Vundle.vim/.git/config')
@@ -14,7 +20,7 @@ if has('unix')
 
     " Runtime path para Vundle de acordo com o sistema nativo
     " do Gvim, para permitir uso dos Vimscripts do Vundle.
-    set rtp+=~/.vim/bundle/Vundle.vim
+    set rtp+=$HOME/.vim/bundle/Vundle.vim
     call vundle#begin()
 else
 
