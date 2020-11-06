@@ -4,3 +4,6 @@
 
 # Não trackear histórico do persistent_undo
 undodir/*
+
+# Não trackear plugins. O Vundle que cuida disso
+bundle/*
