@@ -1,4 +1,4 @@
-set lines=55 columns=83
+set lines=55 columns=85
 
 " Sem retrocompatibilidade com Vi.
 set nocompatible
@@ -6,45 +6,32 @@ set nocompatible
 filetype off
 
 " -------------------VUNDLE---------------------
-" MUST DO
-" futuramente terei que estudar se terei um vimrc pra cada SO
-" todos os plugins e configurações se comportam da mesma maneira
-" em cada sistema? Em termos de manutenção significa o que?
-" Problemas do futuro para o futuro eu. 
-
 if has('unix')
-
-    if !filereadable($HOME . '/.vim/bundle/Vundle.vim/.git/config')
-        exec '!git clone https://github.com/VundleVim/Vundle.vim ' . $HOME . '/.vim/bundle/Vundle.vim/'
-    endif
-
-    " Runtime path para Vundle de acordo com o sistema nativo
-    " do Gvim, para permitir uso dos Vimscripts do Vundle.
-    set rtp+=$HOME/.vim/bundle/Vundle.vim
-    call vundle#begin()
+    let vimfolder = ".vim"
 else
-
-    if !filereadable($HOME . '/vimfiles/bundle/Vundle.vim/.git/config')
-        exec '!git clone https://github.com/VundleVim/Vundle.vim ' . $HOME . '\vimfiles\bundle\Vundle.vim\'
-    endif
-
-    set rtp+=$HOME/vimfiles/bundle/Vundle.vim
-    call vundle#begin('$HOME/vimfiles/bundle')
+    let vimfolder = "vimfiles"
+    let pluginInstallPath = "~/" . vimfolder . "/bundle"
 endif
 
-" Vundle tem que ser capaz de se atualizar.
-Plugin 'VundleVim/Vundle.vim'
+if !filereadable($HOME . '/' . vimfolder . '/bundle/Vundle.vim/.git/config')
+    exec '!git clone https://github.com/VundleVim/Vundle.vim '
+            \ . $HOME . '\' . vimfolder . '\bundle\Vundle.vim\'
+endif
 
-" Colorscheme Solarized. Para Vim em terminal, o segundo também tem que usar
-" Solarized como tema.
-Plugin 'altercation/vim-colors-solarized'
+let &rtp .= ",$HOME/" . vimfolder . "/bundle/Vundle.vim"
+call vundle#begin(pluginInstallPath)
+    " Vundle tem que ser capaz de se atualizar.
+    Plugin 'VundleVim/Vundle.vim'
 
-" Auto-complete. Requer compilação.
-Plugin 'ycm-core/YouCompleteMe'
+    " Colorscheme Solarized. Para Vim em terminal, o segundo também tem que usar
+    " Solarized como tema.
+    Plugin 'altercation/vim-colors-solarized'
 
-" Powerline para Vim
-Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+    " Auto-complete. Requer compilação.
+    Plugin 'ycm-core/YouCompleteMe'
 
+    " Powerline para Vim (não funciona pra windows)
+    Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 call vundle#end()
 
 " ----------CONFIGURAÇÃO DOS PLUGINS------------
@@ -62,8 +49,8 @@ set laststatus=2
 
 " ----------PERSONALIZAÇÃO DO VIM---------------
 
-" Ativa detecção de tipo de arquivo, indentação respectiva e mapeamento e
-" opções dos plugins baixados.
+" Ativa detecção de tipo de arquivo, indentação respectiva e mapeamento e opções
+" dos plugins baixados.
 filetype plugin indent on
 
 let mapleader=","
@@ -76,24 +63,15 @@ if has("vms")
 else
 
     set backup
-    if has('unix')
-        set backupdir=~/.vim/backupdir
-    else
-        set backupdir=$HOME/vimfiles/backupdir
-    endif
+    let &backupdir = $HOME .  "/" . vimfolder . "/backupdir//"
 
-    " Persistent_undo permite manter histórico de mudanças de um arquivo permitindo
-    " refazê-las e desfazê-las ao longo de diferentes 'sessões'.
+    " Persistent_undo permite manter histórico de mudanças de um arquivo
+    " permitindo refazê-las e desfazê-las ao longo de diferentes 'sessões'.
     if has('persistent_undo')
 
         set undofile
-
         " Manter todos os arquivos de histórico de mudança em undodir.
-        if has('unix')
-            set undodir=~/.vim/undodir
-        else
-            set undodir=$HOME/vimfiles/undodir
-        endif
+            let &undodir = $HOME . "/" . vimfolder . "/undodir//"
     endif
 endif
 
@@ -118,19 +96,23 @@ endfunction
 
 function GetOverLength()
 
-    match corrigir /\(\(^\s\+\|^\)\S.\{79}\)\@<=.\+/
+    " Nenhuma linha deve ter mais de 80 caracteres
+    match corrigir /\(\(^\s\+\|^\).\{79}\)\@<=.\+/
 endfunction
+
+set textwidth=80
 
 " Autocmd permite comandos serem executados assim que se abre um arquivo.
 if has("autocmd")
 
-    " Autocmds que que querem atingir o mesmo comportamento são agrupados juntos.
-    " Esses grupos sempre são limpos com au! e autocmd! antes dos autocmds, para
-    " evitar duplicatas e, portanto, lentidão.
+    " Autocmds que que querem atingir o mesmo comportamento são agrupados
+    " juntos.  Esses grupos sempre são limpos com au! e autocmd! antes dos
+    " autocmds, para evitar duplicatas e, portanto, lentidão.
     augroup compileInterpret
 
         au!
-        autocmd FileType python nnoremap <buffer> <F9> :exec '!python' shellescape(@%, 1)<cr>
+        autocmd FileType python nnoremap <buffer> <F9> 
+                    \ :exec '!python' shellescape(@%, 1)<cr>
     augroup END
 endif
 
@@ -145,7 +127,7 @@ set softtabstop=4
 set incsearch
 " Mostra localização atual do ponteiro.
 set ruler
-"Mostra o número de linhas.
+"Mosra o número de linhas.
 set number
 " Destaca a linha atual.
 set cursorline
@@ -164,10 +146,7 @@ nnoremap k gk
 " Mapeamentos do modo normal recursivos.
 
 " Desabilita movimentação por setas.
-nmap <up> <nop>
-nmap <down> <nop>
-nmap <left> <nop>
-nmap <right> <nop>
+nmap <up> <nop> nmap <down> <nop> nmap <left> <nop> nmap <right> <nop>
 
 " Mapeamentos do modo de inserção não recursivos.
 
@@ -204,8 +183,7 @@ set path+=**
 " Abre um menu quando iterando sobre sujestões de arquivos com taba.
 set wildmenu
 
-" Configurações do explorador de arquivos netwr.
-" Esconde o banner.
+" Configurações do explorador de arquivos netwr.  Esconde o banner.
 let g:netrw_banner=0
 " Explora em modo tree
 let g:netrw_liststyle=3
