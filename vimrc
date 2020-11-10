@@ -8,14 +8,16 @@ filetype off
 " -------------------VUNDLE---------------------
 if has('unix')
     let vimfolder = ".vim"
+    let vundlePath = $HOME . '/' . vimfolder . '/bundle/Vundle.vim/'
 else
     let vimfolder = "vimfiles"
+    let vundlePath = $HOME . '\' . vimfolder . '\bundle\Vundle.vim\'
     let pluginInstallPath = "~/" . vimfolder . "/bundle"
 endif
 
 if !filereadable($HOME . '/' . vimfolder . '/bundle/Vundle.vim/.git/config')
     exec '!git clone https://github.com/VundleVim/Vundle.vim '
-            \ . $HOME . '\' . vimfolder . '\bundle\Vundle.vim\'
+            \ . vundlePath
 endif
 
 let &rtp .= ",$HOME/" . vimfolder . "/bundle/Vundle.vim"
@@ -54,6 +56,7 @@ set laststatus=2
 filetype plugin indent on
 
 let mapleader=","
+set relativenumber
 
 " vm = maquina virtual.
 if has("vms")
@@ -63,7 +66,7 @@ if has("vms")
 else
 
     set backup
-    let &backupdir = $HOME .  "/" . vimfolder . "/backupdir//"
+    let &backupdir = $HOME . "/" . vimfolder . "/backupdir//"
 
     " Persistent_undo permite manter histórico de mudanças de um arquivo
     " permitindo refazê-las e desfazê-las ao longo de diferentes 'sessões'.
@@ -106,13 +109,16 @@ set textwidth=80
 if has("autocmd")
 
     " Autocmds que que querem atingir o mesmo comportamento são agrupados
-    " juntos.  Esses grupos sempre são limpos com au! e autocmd! antes dos
+    " juntos.  Esses grupos sempre são limpos com au!/autocmd! antes dos
     " autocmds, para evitar duplicatas e, portanto, lentidão.
-    augroup compileInterpret
+    augroup compilaInterpreta
 
-        au!
-        autocmd FileType python nnoremap <buffer> <F9> 
-                    \ :exec '!python' shellescape(@%, 1)<cr>
+        autocmd!
+        autocmd FileType python nnoremap <buffer> <F9>
+                    \ :w<CR>:exec '!python' shellescape(@%, 1)<cr>
+
+        autocmd FileType javascript nnoremap <buffer> <F9>
+                    \ :w<CR>:exec '!node' shellescape(@%, 1)<cr>
     augroup END
 endif
 
