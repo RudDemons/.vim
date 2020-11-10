@@ -74,7 +74,7 @@ else
 
         set undofile
         " Manter todos os arquivos de histórico de mudança em undodir.
-            let &undodir = $HOME . "/" . vimfolder . "/undodir//"
+        let &undodir = $HOME . "/" . vimfolder . "/undodir//"
     endif
 endif
 
@@ -152,7 +152,10 @@ nnoremap k gk
 " Mapeamentos do modo normal recursivos.
 
 " Desabilita movimentação por setas.
-nmap <up> <nop> nmap <down> <nop> nmap <left> <nop> nmap <right> <nop>
+nmap <up> <nop>
+nmap <down> <nop>
+nmap <left> <nop>
+nmap <right> <nop>
 
 " Mapeamentos do modo de inserção não recursivos.
 
