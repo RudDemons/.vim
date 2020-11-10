@@ -1,4 +1,6 @@
-set lines=55 columns=85
+" 4 extras para a coluna dos numeros
+set lines=55 columns=84
+set colorcolumn=80
 
 " Sem retrocompatibilidade com Vi.
 set nocompatible
@@ -34,6 +36,8 @@ call vundle#begin(pluginInstallPath)
 
     " Powerline para Vim (não funciona pra windows)
     Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+    Plugin 'tpope/vim-fugitive'
 call vundle#end()
 
 " ----------CONFIGURAÇÃO DOS PLUGINS------------
@@ -129,6 +133,7 @@ set expandtab
 set shiftwidth=4
 " Quantidade de espaços de <TAB> e <BS>.
 set softtabstop=4
+set shiftround
 
 " Enquanto digitando, mostra combinações com o padrão pesquisado
 set incsearch
@@ -145,7 +150,7 @@ set showmatch
 
 " Tira os destaques de pesquisa.
 nnoremap <leader><space> :nohls<CR>
-
+ 
 " Navegação vertical não ignora longas linhas duplas.
 nnoremap j gj
 nnoremap k gk
@@ -161,7 +166,9 @@ nmap <right> <nop>
 " Mapeamentos do modo de inserção não recursivos.
 
 " Atalho para o modo normal, do modo de inserção.
-inoremap jk <esc>
+" inoremap jk <esc>
+noremap <esc> <nop>
+" big boys use <c-c>
 
 " Opções de folding caso disponíveis.
 if has("folding")
