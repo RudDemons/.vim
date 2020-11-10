@@ -42,6 +42,7 @@ call vundle#end()
 syntax enable
 set background=dark
 colorscheme solarized
+call togglebg#map("<F5>")
 
 " Para uso do YCM.
 set encoding=utf-8
