@@ -7,3 +7,6 @@ undodir/*
 
 # Não trackear plugins. O Vundle que cuida disso
 bundle/*
+
+# Não trackear histórico do netrwhist
+.netrwhist
