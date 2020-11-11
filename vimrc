@@ -1,20 +1,18 @@
-" 4 extras para a coluna dos numeros
-set lines=55 columns=84
-set colorcolumn=80
+" ---------------------------------VUNDLE-------------------------------------
 
-" Sem retrocompatibilidade com Vi.
 set nocompatible
-" Antes de iniciar o Vundle, sem destaque de sintaxe por tipo de arquivo.
 filetype off
 
-" -------------------VUNDLE---------------------
 if has('unix')
     let vimfolder = ".vim"
     let vundlePath = $HOME . '/' . vimfolder . '/bundle/Vundle.vim/'
 else
     let vimfolder = "vimfiles"
     let vundlePath = $HOME . '\' . vimfolder . '\bundle\Vundle.vim\'
-    let pluginInstallPath = "~/" . vimfolder . "/bundle"
+
+    " No vundle.vim é atribuido a vundle#bundle_dir.
+    " Por padrão é expand('$HOME/.vim/bundle', 1)
+    let pluginInstallPath = "$HOME/" . vimfolder . "/bundle"
 endif
 
 if !filereadable($HOME . '/' . vimfolder . '/bundle/Vundle.vim/.git/config')
@@ -24,79 +22,125 @@ endif
 
 let &rtp .= ",$HOME/" . vimfolder . "/bundle/Vundle.vim"
 call vundle#begin(pluginInstallPath)
-    " Vundle tem que ser capaz de se atualizar.
+
     Plugin 'VundleVim/Vundle.vim'
 
-    " Colorscheme Solarized. Para Vim em terminal, o segundo também tem que usar
-    " Solarized como tema.
+    " Para Vim em terminal, o segundo também tem que usar Solarized como tema.
+    " Basta configurar as 16 cores.
     Plugin 'altercation/vim-colors-solarized'
 
-    " Auto-complete. Requer compilação.
     Plugin 'ycm-core/YouCompleteMe'
+    " (cmd) Requer compilação.
+    " cmake: instalado e no path.
+    " Python 3: Mesma arquitetura que o vim e mesma
+    " versão que a flag -DDYNAMIC_PYTHON3_DLL.              python3 install.py
+    " MSVC 2017: Adiciona no path ou usa parametro          --msvc=15
 
-    " Powerline para Vim (não funciona pra windows)
+    " Suporte a C#:                                         --cs-completer
+    " Suporte a GO: Instala GO                              --go-completer
+    " Suporte a JS e TS: Instala Node.js e NPM              --ts-completer
+    " Suporte a Rust:                                       --rust-completer
+    " Suporte a Java: Instala o JDK8                        --java-completer
+    " Suporte a tudo: Tudo acima                            --all
+
+    " Não funciona pra windows.
     Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 
     Plugin 'tpope/vim-fugitive'
+
 call vundle#end()
 
-" ----------CONFIGURAÇÃO DOS PLUGINS------------
+" -------------------------CONFIGURAÇÃO DOS PLUGINS---------------------------
 
-" Para uso do Solarized.
+" altercation/vim-colors-solarized
 syntax enable
 set background=dark
 colorscheme solarized
 call togglebg#map("<F5>")
 
-" Para uso do YCM.
+" ycm-core/YouCompleteMe
 set encoding=utf-8
 
-" Para uso do Power Line
+" powerline/powerline
 set laststatus=2
 
-" ----------PERSONALIZAÇÃO DO VIM---------------
+" ------------------------------OPÇÕES DO VIM---------------------------------
 
-" Ativa detecção de tipo de arquivo, indentação respectiva e mapeamento e opções
-" dos plugins baixados.
+" :help <opção> é seu amigo. Por algum motivo (suspeito que teclados não
+" US-International) vim não pula entre tags pelo <c-]> como esperado. Ao invés
+" disso, <c-ç> funciona. Algo similar ocorre no modo visual com `> e `<
+
 filetype plugin indent on
-
 let mapleader=","
-set relativenumber
 
-" vm = maquina virtual.
+" 4 colunas extras para a régua.
+set lines=55 columns=84
+set colorcolumn=80 textwidth=78
+
+set expandtab " Tabs são espaços.
+set tabstop=4 " São quantos espaços?
+set shiftwidth=4 " >> e <<
+set shiftround " >> e << sempre para múltiplos de shiftwidth
+
+set showcmd
+set ruler
+set number
+set relativenumber
+set cursorline
+
+set incsearch
+set showmatch
+set backspace=indent,eol,start,
+
+set path+=**
+set wildmenu
+
 if has("vms")
 
-    " maquinas virtuais tem configurações de backup próprias.
-    set nobackup
+    set nobackup " Máquinas virtuais tem configurações de backup próprias.
 else
 
     set backup
     let &backupdir = $HOME . "/" . vimfolder . "/backupdir//"
 
-    " Persistent_undo permite manter histórico de mudanças de um arquivo
-    " permitindo refazê-las e desfazê-las ao longo de diferentes 'sessões'.
     if has('persistent_undo')
 
         set undofile
-        " Manter todos os arquivos de histórico de mudança em undodir.
         let &undodir = $HOME . "/" . vimfolder . "/undodir//"
     endif
 endif
 
-" t_Co guarda quantas cores são suportadas no terminal.
 if &t_Co > 2 || has("gui_running")
 
-    " Mostra o último padrão pesquisado.
-    set hlsearch
+    set hlsearch " Sem 2 cores min, sem hl.
 endif
 
+" Alternativamente posso colocar tudo aqui dentro de um gvimrc.
 if has("gui_running")
 
+    " set guifont=* e set guifont? são seus amigos.
+    " github.com/powerline/fonts
     set guifont=ProFont_for_Powerline:h14:b:cANSI:qDRAFT
 endif
 
-" Definição de tema de highlight e funções de assistência
-highlight corrigir ctermbg=darkgreen guibg=darkgreen
+if has("folding")
+
+    set foldenable
+    set foldmethod=indent " Might change later, idk...
+    set foldlevelstart=10 " Quão indentado até fechar folds automaticamente?
+    set foldnestmax=10 " Folds dentro de folds... Foldinception...
+endif
+
+" --------------------------CONFIGURAÇÕES DO VIM------------------------------
+
+" Configurações do explorador de arquivos netwr. Esconde o banner.
+let g:netrw_banner=0
+" Explora em modo tree
+let g:netrw_liststyle=3
+
+" ----------------------------FUNÇÕES PESSOAIS--------------------------------
+
+highlight corrigir ctermbg=darkgreen guibg=Red
 function GetTrailingSpaces()
 
     match corrigir /\s\+$/
@@ -108,14 +152,10 @@ function GetOverLength()
     match corrigir /\(\(^\s\+\|^\).\{79}\)\@<=.\+/
 endfunction
 
-set textwidth=80
+" --------------------------------AUTOCMDS------------------------------------
 
-" Autocmd permite comandos serem executados assim que se abre um arquivo.
 if has("autocmd")
 
-    " Autocmds que que querem atingir o mesmo comportamento são agrupados
-    " juntos.  Esses grupos sempre são limpos com au!/autocmd! antes dos
-    " autocmds, para evitar duplicatas e, portanto, lentidão.
     augroup compilaInterpreta
 
         autocmd!
@@ -127,83 +167,16 @@ if has("autocmd")
     augroup END
 endif
 
-" Tabs são simplesmente uma quantidade de espaços.
-set expandtab
-" Quantidade de espaços de >>, << e ==.
-set shiftwidth=4
-" Quantidade de espaços de <TAB> e <BS>.
-set softtabstop=4
-set shiftround
+" -------------------------------MAPEAMENTOS----------------------------------
 
-" Enquanto digitando, mostra combinações com o padrão pesquisado
-set incsearch
-" Mostra localização atual do ponteiro.
-set ruler
-"Mosra o número de linhas.
-set number
-" Destaca a linha atual.
-set cursorline
-" Destaca correspondente parenteses, colchetes etc
-set showmatch
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <esc> <nop>
 
-" Mapeamentos do modo normal não-recursivos.
-
-" Tira os destaques de pesquisa.
-nnoremap <leader><space> :nohls<CR>
- 
-" Navegação vertical não ignora longas linhas duplas.
 nnoremap j gj
 nnoremap k gk
 
-" Mapeamentos do modo normal recursivos.
-
-" Desabilita movimentação por setas.
-nmap <up> <nop>
-nmap <down> <nop>
-nmap <left> <nop>
-nmap <right> <nop>
-
-" Mapeamentos do modo de inserção não recursivos.
-
-" Atalho para o modo normal, do modo de inserção.
-" inoremap jk <esc>
-noremap <esc> <nop>
-" big boys use <c-c>
-
-" Opções de folding caso disponíveis.
-if has("folding")
-
-    " Habilita folding de funções.
-    set foldenable
-
-    " Determina a partir de quanta indentação folds de um arquivo aberto estarão
-    " fechadas ou abertas.
-    set foldlevelstart=10
-
-    " Profundidade máxima de fold.
-    set foldnestmax=10
-
-    " Fold são definidas a partir da indentação.
-    set foldmethod=indent
-
-    " Espaço dobra folds.
-    nnoremap <space> za
-endif
-
-" Permite backspace funcionar como a maioria dos editores de texto, não sendo
-" bloqueado para inícios de linha, indentação automática ou início de inserção.
-set backspace=eol,start,indent
-
-" :find pode achar qualquer arquivo dentro da pasta em que o Vim foi aberto
-" inicialmente.
-set path+=**
-" Abre um menu quando iterando sobre sujestões de arquivos com taba.
-set wildmenu
-
-" Configurações do explorador de arquivos netwr.  Esconde o banner.
-let g:netrw_banner=0
-" Explora em modo tree
-let g:netrw_liststyle=3
-
-" Mostra comandos enquanto são digitados
-set showcmd
+nnoremap <leader><space> :nohls<CR>
+nnoremap <space> za
