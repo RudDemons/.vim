@@ -20,6 +20,8 @@ endif
 
 call plug#begin("~/" . vimfolder . "/plugged")
 
+    Plug 'junegunn/vim-plug' " Vim help pro vim-plug
+
     " Para Vim em terminal, o segundo também tem que usar Solarized como tema.
     " Basta configurar as 16 cores.
     Plug 'altercation/vim-colors-solarized'
