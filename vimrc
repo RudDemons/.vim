@@ -40,7 +40,11 @@ call plug#begin("~/" . vimfolder . "/plugged")
     " Suporte a Java: Instala o JDK8                        --java-completer
     " Suporte a tudo: Tudo acima                            --all
 
-    Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+    " Deus do céu, lento pra um caralho
+    " Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+    
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 
     Plug 'tpope/vim-fugitive'
 call plug#end()
