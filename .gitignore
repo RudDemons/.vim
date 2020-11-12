@@ -1,12 +1,7 @@
-# Não trackear arquivos de backup do VIM
 *~
 *.swp
-
-# Não trackear histórico do persistent_undo
-undodir/*
-
-# Não trackear plugins. O Vundle que cuida disso
-bundle/*
-
-# Não trackear histórico do netrwhist
 .netrwhist
+undodir/*
+bundle/*
+autoload/*
+plugged/*
