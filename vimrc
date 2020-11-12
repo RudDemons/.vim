@@ -1,35 +1,30 @@
-" ---------------------------------VUNDLE-------------------------------------
-
-set nocompatible
-filetype off
+" --------------------------------VIM-PLUG------------------------------------
 
 if has('unix')
+
     let vimfolder = ".vim"
-    let vundlePath = $HOME . '/' . vimfolder . '/bundle/Vundle.vim/'
+    let vimPlugFile = '~/' . vimfolder . '/autoload/plug.vim'
 else
+
     let vimfolder = "vimfiles"
-    let vundlePath = $HOME . '\' . vimfolder . '\bundle\Vundle.vim\'
-
-    " No vundle.vim é atribuido a vundle#bundle_dir.
-    " Por padrão é expand('$HOME/.vim/bundle', 1)
-    let pluginInstallPath = "$HOME/" . vimfolder . "/bundle"
+    let vimPlugFile = '$HOME\' . vimfolder . '\autoload\plug.vim'
 endif
 
-if !filereadable($HOME . '/' . vimfolder . '/bundle/Vundle.vim/.git/config')
-    exec '!git clone https://github.com/VundleVim/Vundle.vim '
-            \ . vundlePath
+if empty(glob(vimPlugFile))
+
+    execute 'silent !curl -fLo ' . vimPlugFile . '--create-dirs ' .
+    \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-let &rtp .= ",$HOME/" . vimfolder . "/bundle/Vundle.vim"
-call vundle#begin(pluginInstallPath)
-
-    Plugin 'VundleVim/Vundle.vim'
+call plug#begin("~/" . vimfolder . "/plugged")
 
     " Para Vim em terminal, o segundo também tem que usar Solarized como tema.
     " Basta configurar as 16 cores.
-    Plugin 'altercation/vim-colors-solarized'
+    Plug 'altercation/vim-colors-solarized'
 
-    Plugin 'ycm-core/YouCompleteMe'
+    Plug 'ycm-core/YouCompleteMe'
     " (cmd) Requer compilação.
     " cmake: instalado e no path.
     " Python 3: Mesma arquitetura que o vim e mesma
@@ -43,12 +38,10 @@ call vundle#begin(pluginInstallPath)
     " Suporte a Java: Instala o JDK8                        --java-completer
     " Suporte a tudo: Tudo acima                            --all
 
-    " Não funciona pra windows.
-    Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+    Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 
-    Plugin 'tpope/vim-fugitive'
-
-call vundle#end()
+    Plug 'tpope/vim-fugitive'
+call plug#end()
 
 " -------------------------CONFIGURAÇÃO DOS PLUGINS---------------------------
 
