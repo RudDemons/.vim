@@ -12,7 +12,7 @@ endif
 
 if empty(glob(vimPlugFile))
 
-    execute 'silent !curl -fLo ' . vimPlugFile . '--create-dirs ' .
+    execute 'silent !curl -fLo ' . vimPlugFile . ' --create-dirs ' .
     \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
