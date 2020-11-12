@@ -179,3 +179,8 @@ nnoremap k gk
 
 nnoremap <leader><space> :nohls<CR>
 nnoremap <space> za
+
+if has('clipboard')
+    vnoremap <c-c> "+y<esc>
+    vnoremap <c-v> v"+p<esc>
+endif 
