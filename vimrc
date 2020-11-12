@@ -47,6 +47,7 @@ call plug#begin("~/" . vimfolder . "/plugged")
     Plug 'vim-airline/vim-airline-themes'
 
     Plug 'tpope/vim-fugitive'
+    Plug 'tpope/vim-unimpaired'
 call plug#end()
 
 " -------------------------CONFIGURAÇÃO DOS PLUGINS---------------------------
@@ -155,7 +156,7 @@ endfunction
 
 if has("autocmd")
 
-    augroup compilaInterpreta
+    augroup vimrc
 
         autocmd!
         autocmd FileType python nnoremap <buffer> <F9>
@@ -163,6 +164,8 @@ if has("autocmd")
 
         autocmd FileType javascript nnoremap <buffer> <F9>
                     \ :w<CR>:exec '!node' shellescape(@%, 1)<cr>
+
+        autocmd BufReadPost fugitive://* set bufhidden=delete
     augroup END
 endif
 
