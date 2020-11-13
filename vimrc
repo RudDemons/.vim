@@ -22,15 +22,16 @@ call plug#begin("~/" . vimfolder . "/plugged")
 
     Plug 'junegunn/vim-plug' " Vim help pro vim-plug
 
-    " Para Vim em terminal, o segundo tambÈm tem que usar Solarized como tema.
+    "
+    " Para Vim em terminal, o segundo tamb√©m tem que usar Solarized como tema.
     " Basta configurar as 16 cores.
     Plug 'altercation/vim-colors-solarized'
 
     Plug 'ycm-core/YouCompleteMe'
-    " (cmd) Requer compilaÁ„o.
+    " (cmd) Requer compila√ß√£o.
     " cmake: instalado e no path.
     " Python 3: Mesma arquitetura que o vim e mesma
-    " vers„o que a flag -DDYNAMIC_PYTHON3_DLL.              python3 install.py
+    " vers√£o que a flag -DDYNAMIC_PYTHON3_DLL.              python3 install.py
     " MSVC 2017: Adiciona no path ou usa parametro          --msvc=15
 
     " Suporte a C#:                                         --cs-completer
@@ -40,7 +41,7 @@ call plug#begin("~/" . vimfolder . "/plugged")
     " Suporte a Java: Instala o JDK8                        --java-completer
     " Suporte a tudo: Tudo acima                            --all
 
-    " Deus do cÈu, lento pra um caralho
+    " Deus do c√©u, lento pra um caralho
     " Plug 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
     
     Plug 'vim-airline/vim-airline'
@@ -50,7 +51,7 @@ call plug#begin("~/" . vimfolder . "/plugged")
     Plug 'tpope/vim-unimpaired'
 call plug#end()
 
-" -------------------------CONFIGURA«√O DOS PLUGINS---------------------------
+" -------------------------CONFIGURA√á√ÉO DOS PLUGINS---------------------------
 
 " altercation/vim-colors-solarized
 syntax enable
@@ -64,23 +65,25 @@ set encoding=utf-8
 " powerline/powerline
 set laststatus=2
 
-" ------------------------------OP«’ES DO VIM---------------------------------
+" Airline
+let g:airline_theme='base16_solarized'
+" ------------------------------OP√á√ïES DO VIM---------------------------------
 
-" :help <opÁ„o> È seu amigo. Por algum motivo (suspeito que teclados n„o
-" US-International) vim n„o pula entre tags pelo <c-]> como esperado. Ao invÈs
-" disso, <c-Á> funciona. Algo similar ocorre no modo visual com `> e `<
+" :help <op√ß√£o> √© seu amigo. Por algum motivo (suspeito que teclados n√£o
+" US-International) vim n√£o pula entre tags pelo <c-]> como esperado. Ao inv√©s
+" disso, <c-√ß> funciona. Algo similar ocorre no modo visual com `> e `<
 
 filetype plugin indent on
 let mapleader=","
 
-" 4 colunas extras para a rÈgua.
+" 4 colunas extras para a r√©gua.
 set lines=55 columns=84
 set colorcolumn=80 textwidth=78
 
-set expandtab " Tabs s„o espaÁos.
-set tabstop=4 " S„o quantos espaÁos?
+set expandtab " Tabs s√£o espa√ßos.
+set tabstop=4 " S√£o quantos espa√ßos?
 set shiftwidth=4 " >> e <<
-set shiftround " >> e << sempre para m˙ltiplos de shiftwidth
+set shiftround " >> e << sempre para m√∫ltiplos de shiftwidth
 
 set showcmd
 set ruler
@@ -97,7 +100,7 @@ set wildmenu
 
 if has("vms")
 
-    set nobackup " M·quinas virtuais tem configuraÁıes de backup prÛprias.
+    set nobackup " M√°quinas virtuais tem configura√ß√µes de backup pr√≥prias.
 else
 
     set backup
@@ -118,7 +121,7 @@ endif
 " Alternativamente posso colocar tudo aqui dentro de um gvimrc.
 if has("gui_running")
 
-    " set guifont=* e set guifont? s„o seus amigos.
+    " set guifont=* e set guifont? s√£o seus amigos.
     " github.com/powerline/fonts
     set guifont=ProFont_for_Powerline:h14:b:cANSI:qDRAFT
 endif
@@ -127,18 +130,18 @@ if has("folding")
 
     set foldenable
     set foldmethod=indent " Might change later, idk...
-    set foldlevelstart=10 " Qu„o indentado atÈ fechar folds automaticamente?
+    set foldlevelstart=10 " Qu√£o indentado at√© fechar folds automaticamente?
     set foldnestmax=10 " Folds dentro de folds... Foldinception...
 endif
 
-" --------------------------CONFIGURA«’ES DO VIM------------------------------
+" --------------------------CONFIGURA√á√ïES DO VIM------------------------------
 
-" ConfiguraÁıes do explorador de arquivos netwr. Esconde o banner.
+" Configura√ß√µes do explorador de arquivos netwr. Esconde o banner.
 let g:netrw_banner=0
 " Explora em modo tree
 let g:netrw_liststyle=3
 
-" ----------------------------FUN«’ES PESSOAIS--------------------------------
+" ----------------------------FUN√á√ïES PESSOAIS--------------------------------
 
 highlight corrigir ctermbg=darkgreen guibg=Red
 function GetTrailingSpaces()
@@ -187,3 +190,7 @@ if has('clipboard')
     vnoremap <c-c> "+y<esc>
     vnoremap <c-v> v"+p<esc>
 endif 
+
+if has('win32unix')
+    echo 'espero que isso s√≥ rode no git bash'
+endif
