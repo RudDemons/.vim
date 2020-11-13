@@ -22,7 +22,6 @@ call plug#begin("~/" . vimfolder . "/plugged")
 
     Plug 'junegunn/vim-plug' " Vim help pro vim-plug
 
-    "
     " Para Vim em terminal, o segundo também tem que usar Solarized como tema.
     " Basta configurar as 16 cores.
     Plug 'altercation/vim-colors-solarized'
@@ -65,8 +64,9 @@ set encoding=utf-8
 " powerline/powerline
 set laststatus=2
 
-" Airline
+" vim-airline/vim-airline
 let g:airline_theme='base16_solarized'
+
 " ------------------------------OPÇÕES DO VIM---------------------------------
 
 " :help <opção> é seu amigo. Por algum motivo (suspeito que teclados não
@@ -190,7 +190,3 @@ if has('clipboard')
     vnoremap <c-c> "+y<esc>
     vnoremap <c-v> v"+p<esc>
 endif 
-
-if has('win32unix')
-    echo 'espero que isso só rode no git bash'
-endif
