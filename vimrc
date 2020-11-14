@@ -3,14 +3,13 @@
 if has('unix')
 
     let vimfolder = ".vim"
-    let vimPlugFile = '~/' . vimfolder . '/autoload/plug.vim'
 else
 
     let vimfolder = "vimfiles"
-    let vimPlugFile = '$HOME\' . vimfolder . '\autoload\plug.vim'
 endif
 
-if empty(glob(vimPlugFile))
+let vimPlugFile = glob('~/' . vimfolder . '/autoload/plug.vim')
+if empty(vimPlugFile)
 
     execute 'silent !curl -fLo ' . vimPlugFile . ' --create-dirs ' .
     \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
