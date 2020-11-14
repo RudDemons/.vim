@@ -1,12 +1,10 @@
-" --------------------------------VIM-PLUG------------------------------------
-
 if has('unix')
-
     let vimfolder = ".vim"
 else
-
     let vimfolder = "vimfiles"
 endif
+
+" --------------------------------VIM-PLUG------------------------------------
 
 let vimPlugFile = glob('~/' . vimfolder . '/autoload/plug.vim')
 if empty(vimPlugFile)
