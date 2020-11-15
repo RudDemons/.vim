@@ -6,10 +6,10 @@ endif
 
 " --------------------------------VIM-PLUG------------------------------------
 
-let vimPlugFile = glob('~/' . vimfolder . '/autoload/plug.vim')
-if empty(vimPlugFile)
-
-    execute 'silent !curl -fLo ' . vimPlugFile . ' --create-dirs ' .
+let vimPlugFile = expand('~/' . vimfolder . '/autoload/plug.vim')
+if !filereadable(vimPlugFile)
+    
+    execute '!curl -fLo ' . vimPlugFile . ' --create-dirs ' .
     \ 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
     autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
