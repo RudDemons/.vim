@@ -1,7 +1,5 @@
-*~
-*.swp
-.netrwhist
-undodir/*
-bundle/*
-autoload/*
-plugged/*
+*
+
+!.vimrc
+!.bash_profile
+!.minttyrc
