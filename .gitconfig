@@ -1,0 +1,8 @@
+[user]
+	email = rudah.tankka@gmail.com
+	name = rud___boy
+[i18n]
+	logOutputEncoding = utf-8
+[core]
+	editor = 'F:\\Program Files\\Vim\\vim82\\gvim.exe' -f -i NONE
+	autocrlf = true

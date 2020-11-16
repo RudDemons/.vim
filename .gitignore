@@ -1,5 +1,8 @@
 *
+!.gitconfig
+
+!.bash_profile
+!.bashrc
+!.minttyrc
 
 !.vimrc
-!.bash_profile
-!.minttyrc
