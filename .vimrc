@@ -103,6 +103,7 @@ else
     set backup
     let &backupdir = $HOME . "/" . vimfolder . "/backupdir//"
 
+    let &directory = $HOME . "/" . vimfolder . "/swapdir//," . &directory
     if has('persistent_undo')
 
         set undofile
